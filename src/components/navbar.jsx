@@ -1,126 +1,159 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useLayoutEffect, useRef } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
+import { gsap } from "gsap";
+import Logo from "../assets/Logo.png"; // sesuaikan alias / path
 
 const Navbar = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const menuItemsRef = useRef([]);
+  const tlRef = useRef(null);
+  const location = useLocation();
 
-    const isActive = (path) => {
-        return location.pathname === path;
-    };
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/services", label: "Services" },
+    { path: "/booking", label: "Booking" },
+    { path: "/summary", label: "Summary" },
+  ];
 
-    const navLinks = [
-        { path: '/', label: 'Home' },
-        { path: '/services', label: 'Services'},
-        { path: '/booking', label: 'Booking' },
-        { path: '/summary', label: 'Summary'},
-    ];
+  const calculateHeight = () => {
+    if (!mobileMenuRef.current) return 0;
+    mobileMenuRef.current.style.height = "auto";
+    const height = mobileMenuRef.current.scrollHeight;
+    mobileMenuRef.current.style.height = "0px";
+    return height;
+  };
 
-    return (
-        <nav className="bg-gradient-to-r from-amber-100 via-orange-100 to-amber-100 shadow-lg sticky top-0 z-50">
-            <div className="container mx-4 px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-35">
-                    <Link to="/" className="flex items-center space-x-3 group">
-                        <div>
-                            <img
-                                src="src/assets/Logo.png"
-                                alt="Book My Salon Logo"
-                                className="h-24 sm:h-36 object-contain"
-                            />
-                        </div>
-                    </Link>
+  useLayoutEffect(() => {
+    const menu = mobileMenuRef.current;
+    if (!menu) return;
 
-                    <div className="hidden md:flex items-center space-x-2">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.path}
-                                to={link.path}
-                                className={`flex items-center space-x-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 ${
-                                    isActive(link.path)
-                                        ? 'bg-gradient-to-r from-amber-600 to-orange-700 text-white shadow-lg'
-                                        : 'text-amber-800 hover:bg-amber-200 hover:text-amber-900'
-                                }`}
-                            >
-                                <span className="text-3xl">{link.icon}</span>
-                                <span className="text-2xl">{link.label}</span>
-                            </Link>
-                        ))}
-                    </div>
+    gsap.set(menu, { height: 0, opacity: 0 });
+    gsap.set(menuItemsRef.current, { y: 20, opacity: 0 });
 
-                    <div className="hidden md:block">
-                        <Link
-                            to="/booking"
-                            className="bg-gradient-to-r from-amber-600 to-orange-700 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2"
-                        >
+    const tl = gsap.timeline({ paused: true });
 
-                            <span className="text-2xl">Book Now</span>
-                        </Link>
-                    </div>
-
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="md:hidden text-amber-800 hover:text-amber-900 focus:outline-none p-2"
-                    >
-                        <svg
-                            className="w-7 h-7"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            {isMobileMenuOpen ? (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            ) : (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            )}
-                        </svg>
-                    </button>
-                </div>
-
-                {/* Mobile Menu */}
-                <div
-                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-                        isMobileMenuOpen ? 'max-h-96 pb-4' : 'max-h-0'
-                    }`}
-                >
-                    <div className="flex flex-col space-y-2 pt-2">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.path}
-                                to={link.path}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                                    isActive(link.path)
-                                        ? 'bg-gradient-to-r from-amber-600 to-orange-700 text-white shadow-md'
-                                        : 'text-amber-800 hover:bg-amber-200'
-                                }`}
-                            >
-                                <span className="text-xl">{link.icon}</span>
-                                <span className="text-lg">{link.label}</span>
-                            </Link>
-                        ))}
-                        
-                        <Link
-                            to="/booking"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="bg-gradient-to-r from-amber-600 to-orange-700 text-white px-4 py-3 rounded-lg font-bold shadow-md flex items-center justify-center space-x-2 mt-2"
-                        >
-                            <span className="text-lg">Book Appointment</span>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    tl.to(menu, {
+      height: calculateHeight,
+      opacity: 1,
+      duration: 0.4,
+      ease: "power3.out",
+    }).to(
+      menuItemsRef.current,
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.06,
+        duration: 0.3,
+      },
+      "-=0.2"
     );
+
+    tlRef.current = tl;
+    return () => tl.kill();
+  }, []);
+
+  // close mobile menu on route change
+  useLayoutEffect(() => {
+    if (isOpen) {
+      tlRef.current.reverse();
+      setIsOpen(false);
+    }
+  }, [location.pathname]);
+
+  const toggleMenu = () => {
+    if (!tlRef.current) return;
+    isOpen ? tlRef.current.reverse() : tlRef.current.play(0);
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 shadow-lg border-b border-amber-200 font-['Playfair_Display']">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-14 sm:h-16 md:h-20 lg:h-24 flex items-center justify-between">
+
+        {/* Logo - Smaller on very small screens */}
+        <Link to="/" className="flex items-center z-10">
+          <img
+            src={Logo}
+            alt="Book My Salon"
+            className="h-10 sm:h-12 md:h-16 lg:h-20 object-contain hover:scale-105 transition"
+          />
+        </Link>
+
+        {/* Desktop Menu - Hidden on smaller screens */}
+        <div className="hidden lg:flex gap-1 xl:gap-2 absolute left-1/2 -translate-x-1/2">
+          {navLinks.map(link => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                `px-3 xl:px-5 py-2 rounded-full font-semibold transition transform hover:scale-105 font-['Space_Grotesk'] text-xs xl:text-base
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-amber-600 to-orange-700 text-white shadow-lg"
+                    : "text-amber-900 hover:bg-amber-200"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
+
+        {/* Desktop CTA - Hidden on smaller screens */}
+        <Link
+          to="/booking"
+          className="hidden lg:flex bg-gradient-to-r from-amber-600 to-orange-700 text-white px-4 xl:px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition font-['Space_Grotesk'] text-xs xl:text-base whitespace-nowrap"
+        >
+          Book Now
+        </Link>
+
+        {/* Mobile/Tablet Button */}
+        <button
+          onClick={toggleMenu}
+          className="lg:hidden p-2 z-10 focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          <div className="w-5 sm:w-6 h-4 flex flex-col justify-between">
+            <span className={`h-0.5 bg-amber-900 transition-all duration-300 ${isOpen && "rotate-45 translate-y-[7px] sm:translate-y-[8px]"}`} />
+            <span className={`h-0.5 bg-amber-900 transition-all duration-300 ${isOpen && "-rotate-45 -translate-y-[7px] sm:-translate-y-[8px]"}`} />
+          </div>
+        </button>
+      </div>
+
+      {/* Mobile/Tablet Menu */}
+      <div ref={mobileMenuRef} className="lg:hidden overflow-hidden">
+        <div className="px-3 sm:px-4 pb-3 pt-1 max-h-[calc(100vh-3.5rem)] sm:max-h-[calc(100vh-4rem)] overflow-y-auto">
+          {navLinks.map((link, i) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              ref={el => (menuItemsRef.current[i] = el)}
+              className={({ isActive }) =>
+                `block px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg mb-1.5 sm:mb-2 font-semibold font-['Space_Grotesk'] text-xs sm:text-sm
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-amber-600 to-orange-700 text-white shadow-md"
+                    : "text-amber-900 hover:bg-amber-200"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+
+          <Link
+            to="/booking"
+            ref={el => (menuItemsRef.current[navLinks.length] = el)}
+            className="block text-center bg-gradient-to-r from-amber-600 to-orange-700 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-bold font-['Space_Grotesk'] shadow-md text-xs sm:text-sm"
+          >
+            Book Appointment
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;
