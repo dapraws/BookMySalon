@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
-// Lazy-loaded pages
 const Home = lazy(() => import("../pages/Home/Home"));
 const Services = lazy(() => import("../pages/Services/Services"));
 const ServiceDetail = lazy(() => import("../pages/ServiceDetail/ServiceDetail"));
@@ -11,7 +10,7 @@ const Summary = lazy(() => import("../pages/Summary/Summary"));
 const Footer = lazy(() => import("../components/Footer"));
 const Navbar = lazy(() => import("../components/Navbar"));
 
-// Beautiful loading component with brown theme
+
 const LoadingFallback = () => (
   <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-amber-50 via-orange-50 to-stone-50">
     <div className="text-center">

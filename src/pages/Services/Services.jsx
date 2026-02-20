@@ -20,7 +20,6 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50">
-      {/* Hero */}
       <section className="relative bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 pt-20 sm:pt-24 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
@@ -32,11 +31,9 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Search & Filter */}
       <section className="sticky top-0 z-40 bg-white shadow-md py-4 sm:py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-3 sm:gap-4 justify-between items-center">
 
-          {/* Search */}
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 w-4 h-4 sm:w-5 sm:h-5" />
             <input
@@ -71,7 +68,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Services Grid */}
       <section className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -146,7 +142,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-12 sm:py-16 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-center text-white">
         <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4 px-4">
           Tertarik dengan Layanan Kami?

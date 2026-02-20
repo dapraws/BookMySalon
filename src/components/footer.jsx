@@ -7,10 +7,8 @@ const Footer = () => {
     <footer className="bg-gradient-to-br from-stone-900 via-amber-900 to-stone-900 text-amber-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
 
-        {/* Top Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mb-8 sm:mb-12">
 
-          {/* Brand */}
           <div>
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4 font-['Space_Grotesk']">
               BookMySalon
@@ -21,7 +19,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
               Quick Links
@@ -50,7 +47,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">
               Contact Us
@@ -75,7 +71,6 @@ const Footer = () => {
 
         </div>
 
-        {/* Divider */}
         <div className="border-t border-amber-800 pt-6 sm:pt-8 text-center">
           <p className="text-xs sm:text-sm text-amber-200">
             © {new Date().getFullYear()} BookMySalon. All rights reserved.

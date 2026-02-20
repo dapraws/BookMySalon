@@ -28,7 +28,6 @@ const ServiceDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-amber-50 to-orange-50">
-      {/* Breadcrumb */}
       <div className="bg-white shadow-sm border-b border-amber-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-center gap-2 text-xs sm:text-sm text-stone-600">
@@ -41,7 +40,6 @@ const ServiceDetail = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <section className="py-6 sm:py-8 lg:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
@@ -53,7 +51,6 @@ const ServiceDetail = () => {
           </button>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-            {/* Image Section */}
             <div className="space-y-4">
               <div className="relative h-64 sm:h-80 lg:h-96 rounded-xl overflow-hidden shadow-xl border border-amber-200">
                 <img
@@ -66,7 +63,6 @@ const ServiceDetail = () => {
                 </div>
               </div>
               
-              {/* Quick Info Cards */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <div className="bg-white p-3 sm:p-4 rounded-lg shadow-md border border-amber-100">
                   <div className="flex items-center gap-2 sm:gap-3">
@@ -94,7 +90,6 @@ const ServiceDetail = () => {
               </div>
             </div>
 
-            {/* Details Section */}
             <div className="space-y-4 sm:space-y-6">
               <div>
                 <h1 className="text-3xl sm:text-4xl font-bold text-amber-900 mb-3 sm:mb-4">
@@ -121,7 +116,6 @@ const ServiceDetail = () => {
                 </ul>
               </div>
 
-              {/* Benefits */}
               <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-4 sm:p-6 rounded-xl border border-amber-200">
                 <h2 className="text-xl sm:text-2xl font-bold text-amber-900 mb-3 sm:mb-4 flex items-center gap-2">
                   <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-amber-700" />
@@ -137,7 +131,6 @@ const ServiceDetail = () => {
                 </ul>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex gap-3 sm:gap-4">
                 <Link
                   to="/booking"
@@ -151,7 +144,6 @@ const ServiceDetail = () => {
                 </button>
               </div>
 
-              {/* Contact Info */}
               <div className="bg-amber-100 p-3 sm:p-4 rounded-lg border border-amber-200">
                 <p className="text-xs sm:text-sm text-stone-700">
                   Butuh konsultasi? Hubungi kami di{' '}
@@ -165,7 +157,6 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Related Services */}
       {relatedServices.length > 0 && (
         <section className="py-8 sm:py-12 lg:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -218,7 +209,6 @@ const ServiceDetail = () => {
         </section>
       )}
 
-      {/* CTA Section */}
       <section className="py-12 sm:py-16 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">

@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <div className="bg-white min-h-screen w-full">
 
-      {/* HERO - Adjusted for small windows */}
       <section className="relative h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] lg:h-screen w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -52,7 +51,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES */}
       <section className="py-8 sm:py-12 lg:py-16 xl:py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -96,7 +94,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
       <section className="py-8 sm:py-12 lg:py-16 xl:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -138,7 +135,6 @@ export default function Home() {
       </section>
 
 
-      {/* CTA */}
       <section className="py-8 sm:py-12 lg:py-16 xl:py-20 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 text-white">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
 

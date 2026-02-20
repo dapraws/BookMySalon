@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { gsap } from "gsap";
-import Logo from "../assets/Logo.png"; // sesuaikan alias / path
+import Logo from "../assets/Logo.png"; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +54,6 @@ const Navbar = () => {
     return () => tl.kill();
   }, []);
 
-  // close mobile menu on route change
   useLayoutEffect(() => {
     if (isOpen) {
       tlRef.current.reverse();
@@ -72,7 +71,6 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 shadow-lg border-b border-amber-200 font-['Playfair_Display']">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-14 sm:h-16 md:h-20 lg:h-24 flex items-center justify-between">
 
-        {/* Logo - Smaller on very small screens */}
         <Link to="/" className="flex items-center z-10">
           <img
             src={Logo}
@@ -81,7 +79,6 @@ const Navbar = () => {
           />
         </Link>
 
-        {/* Desktop Menu - Hidden on smaller screens */}
         <div className="hidden lg:flex gap-1 xl:gap-2 absolute left-1/2 -translate-x-1/2">
           {navLinks.map(link => (
             <NavLink
@@ -101,7 +98,6 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop CTA - Hidden on smaller screens */}
         <Link
           to="/booking"
           className="hidden lg:flex bg-gradient-to-r from-amber-600 to-orange-700 text-white px-4 xl:px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition font-['Space_Grotesk'] text-xs xl:text-base whitespace-nowrap"
@@ -109,7 +105,6 @@ const Navbar = () => {
           Book Now
         </Link>
 
-        {/* Mobile/Tablet Button */}
         <button
           onClick={toggleMenu}
           className="lg:hidden p-2 z-10 focus:outline-none"
@@ -122,7 +117,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile/Tablet Menu */}
       <div ref={mobileMenuRef} className="lg:hidden overflow-hidden">
         <div className="px-3 sm:px-4 pb-3 pt-1 max-h-[calc(100vh-3.5rem)] sm:max-h-[calc(100vh-4rem)] overflow-y-auto">
           {navLinks.map((link, i) => (
