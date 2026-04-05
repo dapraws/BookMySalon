@@ -72,6 +72,49 @@ function LazyImage({ src, alt, className = "", wrapperClassName = "", style, eag
   );
 }
 
+// ─── LazyIframe Component ─────────────────────────────────────────────────────
+function LazyIframe({ src, title, wrapperClassName = "", className = "", style, ...props }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const node = wrapperRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={wrapperRef} className={wrapperClassName} style={style}>
+      {isVisible ? (
+        <iframe
+          src={src}
+          title={title}
+          className={`${className} transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+          onLoad={() => setIsLoaded(true)}
+          {...props}
+        />
+      ) : (
+        <div className="w-full h-full bg-gradient-to-br from-amber-100 to-orange-100 animate-pulse flex items-center justify-center">
+          <div className="text-amber-600 text-sm">Loading...</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── HeroSection optimized for WebP + responsive ─────────────────────────────
 function HeroSection() {
   const imageUrl = "https://images.unsplash.com/photo-1560066984-138dadb4c035";
@@ -122,6 +165,7 @@ function HeroSection() {
     </section>
   );
 }
+
 // ─── Carousel Images ──────────────────────────────────────────────────────────
 const galleryImages = [
   {
@@ -189,7 +233,6 @@ const salonTools = [
     color: "from-green-100 to-amber-100",
   },
 ];
-
 
 // ─── WHY CHOOSE US ────────────────────────────────────────────────────────────
 function WhyChooseUsSection() {
@@ -322,7 +365,6 @@ function ToolsSection({ tools, tilt, onMouseMove, onMouseLeave }) {
     </section>
   );
 }
-
 
 // ─── VIDEO SECTION ────────────────────────────────────────────────────────────
 function VideoSection() {
@@ -713,17 +755,7 @@ function CTASection() {
   );
 }
 
-
-// ─── Wrap heavy sections with Suspense + lazy for Home ─────────────────────────
-const HeroSectionLazy = lazy(() => Promise.resolve({ default: HeroSection }));
-const WhyChooseUsSectionLazy = lazy(() => Promise.resolve({ default: WhyChooseUsSection }));
-const ToolsSectionLazy = lazy(() => Promise.resolve({ default: ToolsSection }));
-const VideoSectionLazy = lazy(() => Promise.resolve({ default: VideoSection }));
-const GallerySectionLazy = lazy(() => Promise.resolve({ default: GallerySection }));
-const MapSectionLazy = lazy(() => Promise.resolve({ default: MapSection }));
-const TestimonialsSectionLazy = lazy(() => Promise.resolve({ default: TestimonialsSection }));
-const CTASectionLazy = lazy(() => Promise.resolve({ default: CTASection }));
-
+// ─── MAIN APP ──────────────────────────────────────────────────────────────────
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
@@ -732,58 +764,69 @@ export default function Home() {
 
   const handleNext = () => setCurrent((p) => (p + 1) % galleryImages.length);
   const handlePrev = () => setCurrent((p) => (p - 1 + galleryImages.length) % galleryImages.length);
-  const handleMouseMove = (e, idx) => {
-    const card = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - card.left) / card.width - 0.5) * 20;
-    const y = ((e.clientY - card.top) / card.height - 0.5) * -20;
-    setTilt({ [idx]: { x, y } });
+  const handleMouseMove = (idx, x, y) => {
+    setTilt((prev) => ({ ...prev, [idx]: { x, y } }));
   };
-  const handleMouseLeave = (idx) => setTilt((t) => ({ ...t, [idx]: { x: 0, y: 0 } }));
+  const handleMouseLeave = (idx) => {
+    setTilt((prev) => ({ ...prev, [idx]: { x: 0, y: 0 } }));
+  };
 
   useEffect(() => {
-    if (!isAutoPlay) return;
+    if (!isAutoPlay) {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+      return;
+    }
     autoPlayRef.current = setInterval(handleNext, 3500);
-    return () => clearInterval(autoPlayRef.current);
+    return () => {
+      if (autoPlayRef.current) {
+        clearInterval(autoPlayRef.current);
+      }
+    };
   }, [isAutoPlay]);
 
   return (
-    <Suspense fallback={<div className="text-center py-10">Loading sections...</div>}>
-      <div className="bg-white min-h-screen w-full">
-        <HeroSectionLazy />
-        <WhyChooseUsSectionLazy />
+    <div className="bg-white min-h-screen w-full">
+      <HeroSection />
+      <WhyChooseUsSection />
 
-        <LazySection minHeight="760px">
-          <ToolsSectionLazy tools={salonTools} tilt={tilt} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} />
-        </LazySection>
+      <LazySection minHeight="760px">
+        <ToolsSection 
+          tools={salonTools} 
+          tilt={tilt} 
+          onMouseMove={handleMouseMove} 
+          onMouseLeave={handleMouseLeave} 
+        />
+      </LazySection>
 
-        <LazySection minHeight="760px">
-          <VideoSectionLazy />
-        </LazySection>
+      <LazySection minHeight="760px">
+        <VideoSection />
+      </LazySection>
 
-        <LazySection minHeight="760px">
-          <GallerySectionLazy
-            images={galleryImages}
-            current={current}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            onDot={setCurrent}
-            isAutoPlay={isAutoPlay}
-            setIsAutoPlay={setIsAutoPlay}
-          />
-        </LazySection>
+      <LazySection minHeight="760px">
+        <GallerySection
+          images={galleryImages}
+          current={current}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          onDot={setCurrent}
+          isAutoPlay={isAutoPlay}
+          setIsAutoPlay={setIsAutoPlay}
+        />
+      </LazySection>
 
-        <LazySection minHeight="700px">
-          <MapSectionLazy />
-        </LazySection>
+      <LazySection minHeight="700px">
+        <MapSection />
+      </LazySection>
 
-        <LazySection minHeight="420px">
-          <TestimonialsSectionLazy />
-        </LazySection>
+      <LazySection minHeight="420px">
+        <TestimonialsSection />
+      </LazySection>
 
-        <LazySection minHeight="280px">
-          <CTASectionLazy />
-        </LazySection>
-      </div>
-    </Suspense>
+      <LazySection minHeight="280px">
+        <CTASection />
+      </LazySection>
+    </div>
   );
 }
