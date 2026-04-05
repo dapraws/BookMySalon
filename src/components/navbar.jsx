@@ -14,7 +14,6 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/services", label: "Services" },
     { path: "/booking", label: "Booking" },
-    { path: "/summary", label: "Summary" },
   ];
 
   const calculateHeight = () => {
