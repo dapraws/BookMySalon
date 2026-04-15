@@ -39,11 +39,6 @@ const Footer = () => {
                   Booking
                 </Link>
               </li>
-              <li>
-                <Link to="/summary" className="text-sm sm:text-base text-amber-100 hover:text-amber-300 transition">
-                  Summary
-                </Link>
-              </li>
             </ul>
           </div>
 
